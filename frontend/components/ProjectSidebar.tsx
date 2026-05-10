@@ -1,15 +1,16 @@
 import { Project } from "@/lib/types";
 
 type ProjectSidebarProps = {
+  heading: string;
   projects: Project[];
   selectedProjectId: number | null;
   onSelectProject: (projectId: number) => void;
 };
 
-export function ProjectSidebar({ projects, selectedProjectId, onSelectProject }: ProjectSidebarProps) {
+export function ProjectSidebar({ heading, projects, selectedProjectId, onSelectProject }: ProjectSidebarProps) {
   return (
     <aside className="border-r border-slate-200 bg-white p-4">
-      <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">Projects</h2>
+      <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">{heading}</h2>
       <ul className="space-y-2">
         {projects.map((project) => {
           const selected = project.id === selectedProjectId;

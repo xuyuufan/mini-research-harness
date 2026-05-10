@@ -47,3 +47,5 @@ export type WorkflowRun = {
   agent_runs: AgentRun[];
   report: Artifact;
 };
+
+export type Language = "en" | "zh";

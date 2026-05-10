@@ -12,6 +12,7 @@ This project does not call real OpenAI or Anthropic APIs. The agents are determi
 - Executes the workflow and stores agent run records.
 - Generates a final report artifact.
 - Shows the project, plan, logs, statuses, and report in the frontend.
+- Supports English and Chinese UI text, generated plans, agent logs, and reports.
 
 ## Why this is not a plain chatbot
 
@@ -54,11 +55,12 @@ Runs on `http://localhost:3000`.
 ## Workflow
 
 1. Open the frontend.
-2. Enter a project name and task brief.
-3. Click `Create Project`.
-4. Click `Generate Plan`.
-5. Click `Run Workflow`.
-6. Review the generated plan, agent execution logs, and final report.
+2. Choose `English` or `中文`.
+3. Enter a project name and task brief.
+4. Click `Create Project`.
+5. Click `Generate Plan`.
+6. Click `Run Workflow`.
+7. Review the generated plan, agent execution logs, and final report.
 
 ## API endpoints
 
