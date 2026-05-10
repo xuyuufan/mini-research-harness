@@ -1,15 +1,49 @@
 # Mini Research Harness
 
-Beginner-friendly monorepo scaffold for a web-based multi-agent research workflow tool.
+A small local multi-agent research workflow harness. It turns a loose research or coding task into a traceable project with a plan, assigned local agents, execution logs, and a final markdown report.
+
+This project does not call real OpenAI or Anthropic APIs. The agents are deterministic local mocks so the workflow can be developed and tested without credentials.
+
+## What it does
+
+- Creates research projects with a name and task brief.
+- Generates ordered workflow steps for each project.
+- Assigns each step to a local mock agent.
+- Executes the workflow and stores agent run records.
+- Generates a final report artifact.
+- Shows the project, plan, logs, statuses, and report in the frontend.
+
+## Why this is not a plain chatbot
+
+A normal chatbot keeps work as a conversation transcript. This harness stores structured workflow state:
+
+- `Project`
+- `TaskStep`
+- `AgentRun`
+- `Artifact`
+
+That makes the work easier to inspect, resume, test, and explain.
 
 ## Project structure
 
-- `frontend/` - Next.js + React + Tailwind dashboard UI.
-- `backend/` - FastAPI + SQLite API server with mock agent behavior.
+- `frontend/` - Next.js + React + Tailwind workflow UI.
+- `backend/` - FastAPI + SQLite API server with local mock agents.
+
+## Backend
+
+```powershell
+cd backend
+py -m pip install -r requirements.txt
+py -m uvicorn app.main:app --reload
+```
+
+Runs on `http://127.0.0.1:8000`.
+
+API docs are available at `http://127.0.0.1:8000/docs`.
 
 ## Frontend
 
-```bash
+```powershell
 cd frontend
 npm install
 npm run dev
@@ -17,25 +51,24 @@ npm run dev
 
 Runs on `http://localhost:3000`.
 
-## Backend
+## Workflow
 
-```bash
-cd backend
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload
-```
+1. Open the frontend.
+2. Enter a project name and task brief.
+3. Click `Create Project`.
+4. Click `Generate Plan`.
+5. Click `Run Workflow`.
+6. Review the generated plan, agent execution logs, and final report.
 
-Runs on `http://localhost:8000`.
+## API endpoints
 
-## API endpoints included
-
+- `GET /health`
 - `POST /projects`
 - `GET /projects`
 - `GET /projects/{project_id}`
 - `POST /projects/{project_id}/plan`
 - `POST /projects/{project_id}/agent-runs`
 - `GET /projects/{project_id}/agent-runs`
-
-All planning and agent-run outputs are currently mocked for simple local development.
+- `POST /projects/{project_id}/execute`
+- `GET /projects/{project_id}/artifacts`
+- `GET /workflow-explanation`

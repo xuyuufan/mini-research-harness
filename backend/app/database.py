@@ -1,7 +1,9 @@
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-DATABASE_URL = "sqlite:///./mini_research.db"
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./mini_research.db")
 
 # check_same_thread is needed for SQLite in a FastAPI app.
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})

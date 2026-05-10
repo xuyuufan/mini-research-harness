@@ -15,6 +15,7 @@ class Project(Base):
 
     task_steps = relationship("TaskStep", back_populates="project", cascade="all, delete-orphan")
     agent_runs = relationship("AgentRun", back_populates="project", cascade="all, delete-orphan")
+    artifacts = relationship("Artifact", back_populates="project", cascade="all, delete-orphan")
 
 
 class TaskStep(Base):
@@ -28,6 +29,7 @@ class TaskStep(Base):
     status = Column(String(50), default="pending")
 
     project = relationship("Project", back_populates="task_steps")
+    agent_runs = relationship("AgentRun", back_populates="task_step")
 
 
 class AgentRun(Base):
@@ -42,6 +44,8 @@ class AgentRun(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     project = relationship("Project", back_populates="agent_runs")
+    task_step = relationship("TaskStep", back_populates="agent_runs")
+    artifacts = relationship("Artifact", back_populates="agent_run")
 
 
 class Artifact(Base):
@@ -53,3 +57,7 @@ class Artifact(Base):
     name = Column(String(200), nullable=False)
     content = Column(Text, default="")
     artifact_type = Column(String(80), default="text")
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+    project = relationship("Project", back_populates="artifacts")
+    agent_run = relationship("AgentRun", back_populates="artifacts")

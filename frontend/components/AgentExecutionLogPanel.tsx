@@ -1,19 +1,31 @@
-import { AgentRun } from "@/lib/types";
+import { AgentRun, TaskStep } from "@/lib/types";
 
-export function AgentExecutionLogPanel({ runs }: { runs: AgentRun[] }) {
+type AgentExecutionLogPanelProps = {
+  runs: AgentRun[];
+  steps: TaskStep[];
+};
+
+export function AgentExecutionLogPanel({ runs, steps }: AgentExecutionLogPanelProps) {
+  const stepTitles = new Map(steps.map((step) => [step.id, step.title]));
+
   return (
-    <section className="bg-white rounded-lg p-4 shadow-sm border border-slate-200">
-      <h2 className="text-lg font-semibold mb-3">Agent Execution Logs</h2>
+    <section className="rounded border border-slate-200 bg-white p-4">
+      <h2 className="mb-3 text-lg font-semibold">Agent Execution Logs</h2>
       <div className="space-y-2">
         {runs.map((run) => (
-          <article key={run.id} className="p-2 rounded bg-slate-50 border border-slate-200">
-            <p className="font-medium">{run.agent_name}</p>
-            <p className="text-sm text-slate-600">Step: {run.step_title}</p>
-            <p className="text-xs text-slate-500">Status: {run.status}</p>
-            <p className="text-sm mt-1">{run.output}</p>
+          <article key={run.id} className="rounded border border-slate-200 bg-slate-50 p-3">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p className="font-medium text-slate-950">{run.agent_name}</p>
+              <span className="rounded bg-blue-100 px-2 py-1 text-xs text-blue-800">{run.status}</span>
+            </div>
+            <p className="mt-1 text-sm text-slate-600">
+              Step: {run.task_step_id ? stepTitles.get(run.task_step_id) ?? "Unknown step" : "Manual run"}
+            </p>
+            <p className="mt-2 text-sm leading-6 text-slate-800">{run.output}</p>
           </article>
         ))}
       </div>
+      {runs.length === 0 ? <p className="text-sm text-slate-500">No agent runs yet.</p> : null}
     </section>
   );
 }
