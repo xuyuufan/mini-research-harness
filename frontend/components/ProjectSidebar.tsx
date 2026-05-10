@@ -1,16 +1,35 @@
 import { Project } from "@/lib/types";
 
-export function ProjectSidebar({ projects }: { projects: Project[] }) {
+type ProjectSidebarProps = {
+  projects: Project[];
+  selectedProjectId: number | null;
+  onSelectProject: (projectId: number) => void;
+};
+
+export function ProjectSidebar({ projects, selectedProjectId, onSelectProject }: ProjectSidebarProps) {
   return (
-    <aside className="bg-white rounded-lg p-4 shadow-sm border border-slate-200">
-      <h2 className="text-lg font-semibold mb-3">Projects</h2>
+    <aside className="border-r border-slate-200 bg-white p-4">
+      <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">Projects</h2>
       <ul className="space-y-2">
-        {projects.map((project) => (
-          <li key={project.id} className="p-2 rounded bg-slate-50 border border-slate-200">
-            <p className="font-medium">{project.name}</p>
-            <p className="text-sm text-slate-600">{project.description}</p>
-          </li>
-        ))}
+        {projects.map((project) => {
+          const selected = project.id === selectedProjectId;
+          return (
+            <li key={project.id}>
+              <button
+                className={`w-full rounded border p-3 text-left transition ${
+                  selected
+                    ? "border-blue-500 bg-blue-50 text-blue-950"
+                    : "border-slate-200 bg-slate-50 hover:border-slate-300"
+                }`}
+                onClick={() => onSelectProject(project.id)}
+                type="button"
+              >
+                <span className="block font-medium">{project.name}</span>
+                <span className="mt-1 line-clamp-2 block text-sm text-slate-600">{project.description}</span>
+              </button>
+            </li>
+          );
+        })}
       </ul>
     </aside>
   );
