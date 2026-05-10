@@ -1,9 +1,15 @@
 import { TaskStep } from "@/lib/types";
 
-export function GeneratedPlanPanel({ steps }: { steps: TaskStep[] }) {
+type GeneratedPlanPanelProps = {
+  emptyLabel: string;
+  heading: string;
+  steps: TaskStep[];
+};
+
+export function GeneratedPlanPanel({ emptyLabel, heading, steps }: GeneratedPlanPanelProps) {
   return (
     <section className="rounded border border-slate-200 bg-white p-4">
-      <h2 className="mb-3 text-lg font-semibold">Generated Plan</h2>
+      <h2 className="mb-3 text-lg font-semibold">{heading}</h2>
       <ol className="space-y-2">
         {steps.map((step) => (
           <li key={step.id} className="rounded border border-slate-200 bg-slate-50 p-3">
@@ -17,7 +23,7 @@ export function GeneratedPlanPanel({ steps }: { steps: TaskStep[] }) {
           </li>
         ))}
       </ol>
-      {steps.length === 0 ? <p className="text-sm text-slate-500">No plan generated yet.</p> : null}
+      {steps.length === 0 ? <p className="text-sm text-slate-500">{emptyLabel}</p> : null}
     </section>
   );
 }

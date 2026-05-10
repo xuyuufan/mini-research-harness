@@ -1,16 +1,26 @@
 type TaskInputPanelProps = {
+  createProjectLabel: string;
   description: string;
+  descriptionLabel: string;
+  descriptionPlaceholder: string;
   isBusy: boolean;
   name: string;
+  nameLabel: string;
+  namePlaceholder: string;
   onCreateProject: () => void;
   onDescriptionChange: (value: string) => void;
   onNameChange: (value: string) => void;
 };
 
 export function TaskInputPanel({
+  createProjectLabel,
   description,
+  descriptionLabel,
+  descriptionPlaceholder,
   isBusy,
   name,
+  nameLabel,
+  namePlaceholder,
   onCreateProject,
   onDescriptionChange,
   onNameChange,
@@ -19,20 +29,20 @@ export function TaskInputPanel({
     <section className="border-b border-slate-200 bg-white p-4">
       <div className="grid gap-3 lg:grid-cols-[280px_1fr_auto] lg:items-end">
         <label className="block">
-          <span className="mb-1 block text-sm font-medium text-slate-700">Project name</span>
+          <span className="mb-1 block text-sm font-medium text-slate-700">{nameLabel}</span>
           <input
             className="w-full rounded border border-slate-300 px-3 py-2"
             onChange={(event) => onNameChange(event.target.value)}
-            placeholder="Research workflow harness"
+            placeholder={namePlaceholder}
             value={name}
           />
         </label>
         <label className="block">
-          <span className="mb-1 block text-sm font-medium text-slate-700">Task brief</span>
+          <span className="mb-1 block text-sm font-medium text-slate-700">{descriptionLabel}</span>
           <textarea
             className="h-20 w-full resize-none rounded border border-slate-300 px-3 py-2"
             onChange={(event) => onDescriptionChange(event.target.value)}
-            placeholder="Describe the research or coding task to track..."
+            placeholder={descriptionPlaceholder}
             value={description}
           />
         </label>
@@ -42,7 +52,7 @@ export function TaskInputPanel({
           onClick={onCreateProject}
           type="button"
         >
-          Create Project
+          {createProjectLabel}
         </button>
       </div>
     </section>
