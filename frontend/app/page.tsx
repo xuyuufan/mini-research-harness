@@ -7,7 +7,14 @@ import { GeneratedPlanPanel } from "@/components/GeneratedPlanPanel";
 import { ProjectSidebar } from "@/components/ProjectSidebar";
 import { ReportPanel } from "@/components/ReportPanel";
 import { TaskInputPanel } from "@/components/TaskInputPanel";
-import { createProject, executeWorkflow, generatePlan, getProject, listProjects } from "@/lib/api";
+import {
+  createProject,
+  executeWorkflow,
+  generatePlan,
+  getArtifactDownloadUrl,
+  getProject,
+  listProjects,
+} from "@/lib/api";
 import { Artifact, Language, Project, ProjectDetail } from "@/lib/types";
 
 const copy = {
@@ -22,6 +29,7 @@ const copy = {
     defaultName: "Mini research workflow",
     descriptionLabel: "Task brief",
     descriptionPlaceholder: "Describe the research or coding task to track...",
+    downloadMarkdown: "Download Markdown",
     emptyLogs: "No agent runs yet.",
     emptyPlan: "No plan generated yet.",
     emptyReport: "Run the workflow to generate a report artifact.",
@@ -50,6 +58,7 @@ const copy = {
     defaultName: "迷你研究 workflow",
     descriptionLabel: "任务简介",
     descriptionPlaceholder: "描述需要追踪的研究或代码任务...",
+    downloadMarkdown: "下载 Markdown",
     emptyLogs: "还没有 agent 执行记录。",
     emptyPlan: "还没有生成计划。",
     emptyReport: "运行 workflow 后会生成报告产物。",
@@ -83,6 +92,7 @@ export default function HomePage() {
   const report = useMemo<Artifact | null>(() => {
     return detail?.artifacts.find((artifact) => artifact.artifact_type === "markdown") ?? null;
   }, [detail]);
+  const reportDownloadUrl = detail && report ? getArtifactDownloadUrl(detail.project.id, report.id) : null;
 
   function handleLanguageChange(nextLanguage: Language) {
     setLanguage(nextLanguage);
@@ -245,7 +255,13 @@ export default function HomePage() {
               unknownStepLabel={t.unknownStep}
             />
           </div>
-          <ReportPanel emptyLabel={t.emptyReport} heading={t.finalReport} report={report} />
+          <ReportPanel
+            downloadLabel={t.downloadMarkdown}
+            downloadUrl={reportDownloadUrl}
+            emptyLabel={t.emptyReport}
+            heading={t.finalReport}
+            report={report}
+          />
           <section className="rounded border border-slate-200 bg-white p-4">
             <h2 className="mb-2 text-lg font-semibold">{t.chatbotHeading}</h2>
             <p className="text-sm leading-6 text-slate-700">{t.chatbotText}</p>

@@ -56,6 +56,11 @@ def test_english_workflow_generates_plan_runs_and_report():
     assert artifacts.status_code == 200
     assert artifacts.json()[0]["id"] == result["report"]["id"]
 
+    download = client.get(f"/projects/{project_id}/artifacts/{result['report']['id']}/download")
+    assert download.status_code == 200
+    assert "attachment" in download.headers["content-disposition"]
+    assert "Why this is not a plain chatbot" in download.text
+
 
 def test_chinese_workflow_generates_plan_runs_and_report():
     client = TestClient(app)
@@ -87,6 +92,11 @@ def test_chinese_workflow_generates_plan_runs_and_report():
     artifacts = client.get(f"/projects/{project_id}/artifacts")
     assert artifacts.status_code == 200
     assert artifacts.json()[0]["id"] == result["report"]["id"]
+
+    download = client.get(f"/projects/{project_id}/artifacts/{result['report']['id']}/download")
+    assert download.status_code == 200
+    assert "attachment" in download.headers["content-disposition"]
+    assert "为什么" in download.text
 
 
 def test_sqlite_foreign_keys_are_enabled():
