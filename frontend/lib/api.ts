@@ -1,4 +1,4 @@
-import { Project, ProjectDetail, TaskStep, WorkflowRun } from "@/lib/types";
+import { Language, Project, ProjectDetail, TaskStep, WorkflowRun } from "@/lib/types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
 
@@ -34,10 +34,10 @@ export function getProject(projectId: number) {
   return request<ProjectDetail>(`/projects/${projectId}`);
 }
 
-export function generatePlan(projectId: number) {
-  return request<TaskStep[]>(`/projects/${projectId}/plan`, { method: "POST" });
+export function generatePlan(projectId: number, language: Language) {
+  return request<TaskStep[]>(`/projects/${projectId}/plan?language=${language}`, { method: "POST" });
 }
 
-export function executeWorkflow(projectId: number) {
-  return request<WorkflowRun>(`/projects/${projectId}/execute`, { method: "POST" });
+export function executeWorkflow(projectId: number, language: Language) {
+  return request<WorkflowRun>(`/projects/${projectId}/execute?language=${language}`, { method: "POST" });
 }
