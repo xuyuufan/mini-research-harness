@@ -44,9 +44,11 @@ class OpenAIProvider:
     not_implemented_message = "OpenAIProvider is not implemented yet. Use AGENT_PROVIDER=local for now."
 
     def generate_plan(self, project: models.Project, language: str = "en"):
+        # Future implementation should use prompt builders from app.prompts before calling an LLM API.
         raise NotImplementedError(self.not_implemented_message)
 
     def run_agent(self, project: models.Project, step: models.TaskStep, language: str = "en"):
+        # Future implementation should use prompt builders from app.prompts before calling an LLM API.
         raise NotImplementedError(self.not_implemented_message)
 
     def generate_report(
@@ -56,6 +58,7 @@ class OpenAIProvider:
         runs: list[models.AgentRun],
         language: str = "en",
     ):
+        # Future implementation should use prompt builders from app.prompts before calling an LLM API.
         raise NotImplementedError(self.not_implemented_message)
 
 
@@ -63,9 +66,11 @@ class AnthropicProvider:
     not_implemented_message = "AnthropicProvider is not implemented yet. Use AGENT_PROVIDER=local for now."
 
     def generate_plan(self, project: models.Project, language: str = "en"):
+        # Future implementation should use prompt builders from app.prompts before calling an LLM API.
         raise NotImplementedError(self.not_implemented_message)
 
     def run_agent(self, project: models.Project, step: models.TaskStep, language: str = "en"):
+        # Future implementation should use prompt builders from app.prompts before calling an LLM API.
         raise NotImplementedError(self.not_implemented_message)
 
     def generate_report(
@@ -75,6 +80,7 @@ class AnthropicProvider:
         runs: list[models.AgentRun],
         language: str = "en",
     ):
+        # Future implementation should use prompt builders from app.prompts before calling an LLM API.
         raise NotImplementedError(self.not_implemented_message)
 
 
