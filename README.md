@@ -42,6 +42,13 @@ Runs on `http://127.0.0.1:8000`.
 
 API docs are available at `http://127.0.0.1:8000/docs`.
 
+### Backend tests
+
+```powershell
+cd backend
+py -m pytest
+```
+
 ## Frontend
 
 ```powershell
