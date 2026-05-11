@@ -2,7 +2,7 @@
 
 A small local multi-agent research workflow harness. It turns a loose research or coding task into a traceable project with a plan, assigned local agents, execution logs, and a final markdown report.
 
-This project does not call real OpenAI or Anthropic APIs. The agents are deterministic local mocks so the workflow can be developed and tested without credentials.
+By default, the agents are deterministic local mocks so the workflow can be developed and tested without credentials. The optional OpenAI provider can call the OpenAI API when explicitly configured.
 
 ## What it does
 
@@ -61,10 +61,18 @@ $env:AGENT_PROVIDER = "local"
 Supported values:
 
 - `local`: deterministic mock agents, currently usable.
-- `openai`: skeleton only, not implemented yet.
+- `openai`: optional OpenAI provider.
 - `anthropic`: skeleton only, not implemented yet.
 
-Currently, only the `local` provider is usable. The `openai` and `anthropic` providers are placeholders for future extension, and this project does not call real OpenAI or Anthropic APIs.
+OpenAI provider example:
+
+```powershell
+$env:AGENT_PROVIDER = "openai"
+$env:OPENAI_API_KEY = "your-key-here"
+$env:OPENAI_MODEL = "gpt-4o-mini"
+```
+
+The default provider is still `local`. The OpenAI provider is optional, and you should never commit API keys to GitHub. The `anthropic` provider is still a placeholder for future extension.
 
 Prompt builders are centralized in `backend/app/prompts.py` for future LLM providers. The current local provider still uses deterministic mock outputs.
 
