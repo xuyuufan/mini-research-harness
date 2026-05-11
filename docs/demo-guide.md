@@ -73,7 +73,8 @@ http://localhost:3000
 7. Click `Run Workflow`.
 8. Review the `Agent Execution Logs`.
 9. Scroll to the `Final Report`.
-10. Point out the section titled `Why this is not a plain chatbot`.
+10. Click `Download Markdown` to download the final report as a Markdown file.
+11. Point out the section titled `Why this is not a plain chatbot`.
 
 ## Chinese Demo Flow
 
@@ -88,13 +89,15 @@ http://localhost:3000
 7. Click `运行 Workflow`.
 8. Review the Chinese agent logs.
 9. Scroll to the Chinese final report.
-10. Point out the section containing `为什么`.
+10. Click `下载 Markdown` to download the Chinese final report as a Markdown file.
+11. Point out the section containing `为什么`.
 
 ## What to Point Out During Demo
 
 - This is not a normal chatbot. It stores structured workflow state instead of only chat messages.
 - Workflow state is saved as `Project`, `TaskStep`, `AgentRun`, and `Artifact` records.
 - The final report is an artifact generated from the workflow trace.
+- The final report can be downloaded as a Markdown file.
 - The UI and generated workflow output support both English and Chinese.
 - The backend has pytest smoke tests for health checks, English workflow, Chinese workflow, report artifacts, and SQLite foreign key enforcement.
 - Current agents are deterministic mocks, so the demo does not depend on real LLM APIs or API keys.

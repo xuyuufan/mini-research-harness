@@ -1,4 +1,4 @@
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
@@ -62,6 +62,12 @@ def require_project(project_id: int, db: Session):
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
     return project
+
+
+def markdown_filename(name: str):
+    filename = "".join(char.lower() if char.isalnum() else "-" for char in name.strip())
+    filename = "-".join(part for part in filename.split("-") if part)
+    return f"{filename or 'final-report'}.md"
 
 
 def reset_project_workflow(db: Session, project_id: int):
@@ -218,6 +224,21 @@ def execute_workflow(project_id: int, language: str = "en", db: Session = Depend
 def list_artifacts(project_id: int, db: Session = Depends(get_db)):
     require_project(project_id, db)
     return ordered_artifacts(db, project_id)
+
+
+@app.get("/projects/{project_id}/artifacts/{artifact_id}/download")
+def download_artifact(project_id: int, artifact_id: int, db: Session = Depends(get_db)):
+    require_project(project_id, db)
+    artifact = db.query(models.Artifact).filter(models.Artifact.id == artifact_id).first()
+    if not artifact or artifact.project_id != project_id:
+        raise HTTPException(status_code=404, detail="Artifact not found")
+
+    filename = markdown_filename(artifact.name)
+    return Response(
+        content=artifact.content,
+        media_type="text/markdown; charset=utf-8",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
 
 
 @app.get("/workflow-explanation")

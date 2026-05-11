@@ -41,3 +41,7 @@ export function generatePlan(projectId: number, language: Language) {
 export function executeWorkflow(projectId: number, language: Language) {
   return request<WorkflowRun>(`/projects/${projectId}/execute?language=${language}`, { method: "POST" });
 }
+
+export function getArtifactDownloadUrl(projectId: number, artifactId: number) {
+  return `${API_BASE_URL}/projects/${projectId}/artifacts/${artifactId}/download`;
+}
