@@ -1,3 +1,4 @@
+import os
 from typing import Protocol
 
 from . import models
@@ -37,3 +38,13 @@ class LocalMockProvider:
         language: str = "en",
     ):
         return make_report(project, steps, runs, language)
+
+
+def get_provider() -> AgentProvider:
+    provider_name = os.environ.get("AGENT_PROVIDER", "local")
+
+    if provider_name == "local":
+        return LocalMockProvider()
+
+    # Future providers can be wired here, for example OpenAIProvider or AnthropicProvider.
+    raise ValueError(f"unsupported provider: {provider_name}")

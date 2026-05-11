@@ -46,6 +46,20 @@ Runs on `http://127.0.0.1:8000`.
 
 API docs are available at `http://127.0.0.1:8000/docs`.
 
+### Provider configuration
+
+The default agent provider is `local`.
+
+```text
+AGENT_PROVIDER=local
+```
+
+```powershell
+$env:AGENT_PROVIDER = "local"
+```
+
+The local provider uses deterministic mock agents. The project does not currently connect to real OpenAI or Anthropic APIs.
+
 ### Backend tests
 
 ```powershell
