@@ -30,6 +30,10 @@ That makes the work easier to inspect, resume, test, and explain.
 - `frontend/` - Next.js + React + Tailwind workflow UI.
 - `backend/` - FastAPI + SQLite API server with local mock agents.
 
+## Demo guide
+
+See [docs/demo-guide.md](docs/demo-guide.md) for a walkthrough you can use in demos, resumes, and interviews.
+
 ## Backend
 
 ```powershell
