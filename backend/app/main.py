@@ -3,12 +3,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 from . import models, schemas
-from .agents import build_plan, make_agent_output
 from .database import Base, SessionLocal, engine
 from .i18n import get_copy
-from .reporting import make_report
+from .providers import AgentProvider, LocalMockProvider
 
 app = FastAPI(title="Mini Research Harness API")
+provider: AgentProvider = LocalMockProvider()
 
 app.add_middleware(
     CORSMiddleware,
@@ -77,7 +77,7 @@ def reset_project_workflow(db: Session, project_id: int):
 
 
 def add_plan_steps(db: Session, project: models.Project, language: str):
-    for number, title, agent in build_plan(project, language):
+    for number, title, agent in provider.generate_plan(project, language):
         db.add(
             models.TaskStep(
                 project_id=project.id,
@@ -141,7 +141,7 @@ def create_agent_run(project_id: int, payload: schemas.AgentRunCreate, language:
         if not step:
             raise HTTPException(status_code=404, detail="Task step not found")
 
-    output = make_agent_output(
+    output = provider.run_agent(
         project,
         step
         or models.TaskStep(
@@ -194,7 +194,7 @@ def execute_workflow(project_id: int, language: str = "en", db: Session = Depend
             task_step_id=step.id,
             agent_name=step.assigned_agent,
             status="completed",
-            output=make_agent_output(project, step, language),
+            output=provider.run_agent(project, step, language),
         )
         step.status = "completed"
         db.add(run)
@@ -206,7 +206,7 @@ def execute_workflow(project_id: int, language: str = "en", db: Session = Depend
         agent_run_id=runs[-1].id if runs else None,
         name="Final Research Report",
         artifact_type="markdown",
-        content=make_report(project, steps, runs, language),
+        content=provider.generate_report(project, steps, runs, language),
     )
     db.add(report)
     db.commit()
