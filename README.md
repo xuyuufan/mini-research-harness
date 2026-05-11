@@ -66,6 +66,8 @@ Supported values:
 
 Currently, only the `local` provider is usable. The `openai` and `anthropic` providers are placeholders for future extension, and this project does not call real OpenAI or Anthropic APIs.
 
+Prompt builders are centralized in `backend/app/prompts.py` for future LLM providers. The current local provider still uses deterministic mock outputs.
+
 ### Backend tests
 
 ```powershell
