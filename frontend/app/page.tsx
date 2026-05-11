@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { AgentExecutionLogPanel } from "@/components/AgentExecutionLogPanel";
+import { ArtifactListPanel } from "@/components/ArtifactListPanel";
 import { GeneratedPlanPanel } from "@/components/GeneratedPlanPanel";
 import { ProjectSidebar } from "@/components/ProjectSidebar";
 import { ReportPanel } from "@/components/ReportPanel";
@@ -20,6 +21,11 @@ import { Artifact, Language, Project, ProjectDetail } from "@/lib/types";
 const copy = {
   en: {
     agentLogs: "Agent Execution Logs",
+    artifactCreatedAt: "Created",
+    artifactEmpty: "No artifacts yet.",
+    artifactName: "Name",
+    artifacts: "Artifacts",
+    artifactType: "Type",
     chatbotHeading: "Harness vs Chatbot",
     chatbotText:
       "This app treats work as a project with persisted steps, assigned local agents, execution logs, statuses, and a generated artifact. A normal chatbot is mostly a conversation transcript; this harness makes the workflow inspectable, resumable, and testable.",
@@ -29,6 +35,7 @@ const copy = {
     defaultName: "Mini research workflow",
     descriptionLabel: "Task brief",
     descriptionPlaceholder: "Describe the research or coding task to track...",
+    download: "Download",
     downloadMarkdown: "Download Markdown",
     emptyLogs: "No agent runs yet.",
     emptyPlan: "No plan generated yet.",
@@ -49,6 +56,11 @@ const copy = {
     unknownStep: "Unknown step",
   },
   zh: {
+    artifactCreatedAt: "创建时间",
+    artifactEmpty: "还没有产物。",
+    artifactName: "名称",
+    artifacts: "产物",
+    artifactType: "类型",
     agentLogs: "Agent 执行日志",
     chatbotHeading: "Harness 和普通 Chatbot 的区别",
     chatbotText:
@@ -58,6 +70,7 @@ const copy = {
     defaultName: "迷你研究 workflow",
     descriptionLabel: "任务简介",
     descriptionPlaceholder: "描述需要追踪的研究或代码任务...",
+    download: "下载",
     downloadMarkdown: "下载 Markdown",
     emptyLogs: "还没有 agent 执行记录。",
     emptyPlan: "还没有生成计划。",
@@ -261,6 +274,16 @@ export default function HomePage() {
             emptyLabel={t.emptyReport}
             heading={t.finalReport}
             report={report}
+          />
+          <ArtifactListPanel
+            artifacts={detail?.artifacts ?? []}
+            createdAtLabel={t.artifactCreatedAt}
+            downloadLabel={t.download}
+            emptyLabel={t.artifactEmpty}
+            getDownloadUrl={(artifact) => getArtifactDownloadUrl(artifact.project_id, artifact.id)}
+            heading={t.artifacts}
+            nameLabel={t.artifactName}
+            typeLabel={t.artifactType}
           />
           <section className="rounded border border-slate-200 bg-white p-4">
             <h2 className="mb-2 text-lg font-semibold">{t.chatbotHeading}</h2>
