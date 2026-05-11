@@ -3,4 +3,5 @@ uvicorn==0.30.3
 sqlalchemy==2.0.31
 pydantic==2.8.2
 httpx==0.28.1
+openai>=1.66.0
 pytest==8.3.4
