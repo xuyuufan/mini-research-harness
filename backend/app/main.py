@@ -5,10 +5,10 @@ from sqlalchemy.orm import Session
 from . import models, schemas
 from .database import Base, SessionLocal, engine
 from .i18n import get_copy
-from .providers import AgentProvider, LocalMockProvider
+from .providers import AgentProvider, get_provider
 
 app = FastAPI(title="Mini Research Harness API")
-provider: AgentProvider = LocalMockProvider()
+provider: AgentProvider = get_provider()
 
 app.add_middleware(
     CORSMiddleware,
